@@ -98,3 +98,17 @@ class EmployeeDetail(APIView):
         employee = self.get_object(pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Mixins are reusable code classes in object-oriented programming that provide specific functionalities.
+# In Django REST framework, mixins are used to add common functionality to views.
+# There are 5 types of mixins in Django.
+# They are ListModelMixin, CreateModelMixin, RetriewModelMixin, UpdateModelMixin, DestroyModelMixin.
+# These mixins use their build-in methods.
+# ListModelMixin - list(); CreateModelMixin - create(); RetriewModelMixin - retrieve()
+# UpdateModelMixin - update(); DestroyModelMixin - destroy();
+# eg: create ModelName(mixins, generics.GenericAPIView)
+
+# Generic API View acts as a foundational class for building most API views.
+# It provides essential functionalities for handling incoming HTTP requests
+# such as get, post, put and delete. It also structures outgoing responses.
