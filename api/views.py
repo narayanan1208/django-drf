@@ -11,6 +11,8 @@ from .serializers import EmployeeSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 
+from rest_framework import mixins, generics
+
 # Function-based views
 
 
@@ -58,7 +60,7 @@ def studentDetailView(request, pk):
 # This ensured code reusablitiy.
 # It does not need api decorators.
 
-
+"""
 class Employees(APIView):
     def get(self, request):
         employees = Employee.objects.all()
@@ -71,7 +73,6 @@ class Employees(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class EmployeeDetail(APIView):
     def get_object(self, pk):
@@ -98,6 +99,7 @@ class EmployeeDetail(APIView):
         employee = self.get_object(pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+"""
 
 
 # Mixins are reusable code classes in object-oriented programming that provide specific functionalities.
@@ -109,6 +111,34 @@ class EmployeeDetail(APIView):
 # UpdateModelMixin - update(); DestroyModelMixin - destroy();
 # eg: create ModelName(mixins, generics.GenericAPIView)
 
-# Generic API View acts as a foundational class for building most API views.
-# It provides essential functionalities for handling incoming HTTP requests
-# such as get, post, put and delete. It also structures outgoing responses.
+
+class Employees(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
+):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class EmployeeDetail(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+    def get(self, request, pk):
+        return self.retrieve(request, pk)
+
+    def put(self, request, pk):
+        return self.update(request, pk)
+
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
