@@ -173,12 +173,12 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
 # It can be extended in two ways: by using ModelViewSet or ViewSet.
 # ViewSet provides list, create, retrieve, update and destroy methods.
 # ModelViewSet takes only queryset and serializer_class as arguments
-# autumatically provides both pk based and non-pk based operations.
+# automatically provides both pk based and non-pk based operations.
 # Viewsets work using routers, which automatically generate URL patterns for the viewset actions.
 # One only needs to register the viewset with a router to make it functional.
 
 
-class EmployeeViewSet(viewsets.ViewSet):
+"""class EmployeeViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Employee.objects.all()
         serializer = EmployeeSerializer(queryset, many=True)
@@ -208,3 +208,9 @@ class EmployeeViewSet(viewsets.ViewSet):
         employee = get_object_or_404(Employee, pk=pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+"""
+
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
