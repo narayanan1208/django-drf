@@ -1,4 +1,5 @@
-# from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 # from django.http import JsonResponse
 from students.models import Student
 from .serializers import StudentSerializer
@@ -11,7 +12,7 @@ from .serializers import EmployeeSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, viewsets
 
 # Function-based views
 
@@ -155,7 +156,7 @@ class EmployeeDetail(
 # There are combinations of these generic views such as
 # ListCreateAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView.
 
-
+"""
 class Employees(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
@@ -165,3 +166,45 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     lookup_field = "pk"
+"""
+
+# Viewsets combines the functionalities of views and serializers,
+# allowing you to define the logic for handling requests in a more organized way.
+# It can be extended in two ways: by using ModelViewSet or ViewSet.
+# ViewSet provides list, create, retrieve, update and destroy methods.
+# ModelViewSet takes only queryset and serializer_class as arguments
+# autumatically provides both pk based and non-pk based operations.
+# Viewsets work using routers, which automatically generate URL patterns for the viewset actions.
+# One only needs to register the viewset with a router to make it functional.
+
+
+class EmployeeViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Employee.objects.all()
+        serializer = EmployeeSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = EmployeeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        employee = get_object_or_404(Employee, pk=pk)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        employee = get_object_or_404(Employee, pk=pk)
+        serializer = EmployeeSerializer(employee, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        employee = get_object_or_404(Employee, pk=pk)
+        employee.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
