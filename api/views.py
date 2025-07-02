@@ -111,7 +111,7 @@ class EmployeeDetail(APIView):
 # UpdateModelMixin - update(); DestroyModelMixin - destroy();
 # eg: create ModelName(mixins, generics.GenericAPIView)
 
-
+"""
 class Employees(
     mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView
 ):
@@ -142,3 +142,26 @@ class EmployeeDetail(
 
     def delete(self, request, pk):
         return self.destroy(request, pk)
+"""
+
+# Generic API View acts as a foundational class for building most API views.
+# It provides essential functionalities for handling incoming HTTP requests
+# such as get, post, put and delete. It also structures outgoing responses.
+
+# Generics are pre-build view classes and mixins that encapsulates common API functionalities
+# like creating, reading, updating and deleting without the need to write boilerplate code.
+# There are 5 types of generic views in Django REST framework.
+# They are ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView.
+# There are combinations of these generic views such as
+# ListCreateAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView.
+
+
+class Employees(generics.ListCreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    lookup_field = "pk"
