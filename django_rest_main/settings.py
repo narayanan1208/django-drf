@@ -125,3 +125,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Pagination is a technique used to divide large datasets into smaller, manageable chunks or pages.
+# It is useful when dealing with large datasets to improve performance and user experience.
+# In Django REST framework, pagination can be implemented using built-in pagination classes.
+# The most commonly used pagination classes are:
+# 1. PageNumberPagination: Uses page numbers to navigate through pages.
+# Takes a page_size parameter to control the number of items per page.
+# 2. LimitOffsetPagination: Uses limit and offset parameters to control the number of items
+# per page. It allows for more flexible pagination.
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 1,
+}
