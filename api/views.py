@@ -18,6 +18,7 @@ from blogs.models import Blog, Comment
 from blogs.serializers import BlogSerializer, CommentSerializer
 
 from .paginations import CustomPagination
+from employees.filters import EmployeeFilter
 
 # Function-based views
 
@@ -220,7 +221,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     pagination_class = CustomPagination
-    filterset_fields = ["designation"]
+    # Global filter
+    # filterset_fields = ["designation"]
+
+    # Custom filter
+    filterset_class = EmployeeFilter
 
 
 class BlogsView(generics.ListCreateAPIView):
