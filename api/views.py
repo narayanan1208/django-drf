@@ -20,7 +20,7 @@ from blogs.serializers import BlogSerializer, CommentSerializer
 from .paginations import CustomPagination
 from employees.filters import EmployeeFilter
 
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Function-based views
 
@@ -233,9 +233,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     # ^ for searching with starting word
     search_fields = ["blog_title", "blog_body"]
+    ordering_fileds = ["id", "blog_title"]
 
 
 class CommentsView(generics.ListCreateAPIView):
