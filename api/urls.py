@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from jwt_auth_demo.views import RegisterView, LoginView, UserView, LogoutView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -20,4 +21,8 @@ urlpatterns = [
     path("comments/", views.CommentsView.as_view()),
     path("blogs/<int:pk>", views.BlogsDetailView.as_view()),
     path("comments/<int:pk>", views.CommentsDetailView.as_view()),
+    path("register/", RegisterView.as_view()),
+    path("login/", LoginView.as_view()),
+    path("user/", UserView.as_view()),
+    path("logout/", LogoutView.as_view()),
 ]

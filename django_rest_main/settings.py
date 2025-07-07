@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     "api",
     "employees",
     "blogs",
+    "jwt_auth_demo",
     "django_filters",
 ]
+
+AUTH_USER_MODEL = "auth.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -142,4 +145,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "SEARCH_PARAM": "q",
     "ORDERING_PARAM": "order-by",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
 }
