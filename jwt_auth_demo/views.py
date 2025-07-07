@@ -20,7 +20,6 @@ class LoginView(APIView):
         username = request.data["username"]
         password = request.data["password"]
         user = authenticate(request, username=username, password=password)
-
         if user is None:
             return Response({"error": "Invalid Credentials"}, status=400)
 
@@ -36,6 +35,9 @@ class UserView(APIView):
 
     def get(self, request):
         user = request.user
+        print("User:", request.user)
+        print("Is authenticated:", request.user.is_authenticated)
+
         return Response(UserSerializer(user).data)
 
 

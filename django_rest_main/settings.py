@@ -146,6 +146,6 @@ REST_FRAMEWORK = {
     "SEARCH_PARAM": "q",
     "ORDERING_PARAM": "order-by",
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "jwt_auth_demo.authentication.CookieJWTAuthentication",
     ),
 }
