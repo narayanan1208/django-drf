@@ -145,7 +145,10 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "SEARCH_PARAM": "q",
     "ORDERING_PARAM": "order-by",
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "jwt_auth_demo.authentication.CookieJWTAuthentication",
+    # ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "jwt_auth_demo.authentication.CookieJWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
 }

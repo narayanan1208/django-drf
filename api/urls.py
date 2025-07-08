@@ -1,6 +1,14 @@
 from django.urls import path, include
 from . import views
-from jwt_auth_demo.views import RegisterView, LoginView, UserView, LogoutView
+
+# from jwt_auth_demo.views import RegisterView, LoginView, UserView, LogoutView
+from jwt_session_auth_demo.views import (
+    RegisterView,
+    LoginView,
+    UserView,
+    LogoutView,
+    get_csrf_token,
+)
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -25,4 +33,5 @@ urlpatterns = [
     path("login/", LoginView.as_view()),
     path("user/", UserView.as_view()),
     path("logout/", LogoutView.as_view()),
+    path("csrf/", get_csrf_token),
 ]
